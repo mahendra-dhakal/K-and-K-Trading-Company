@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Our Services{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'core:home' %}">Home</a><span class="crumb-sep">/</span><span>Services</span></div>
+    <h1>Our Business Areas</h1>
+    <p>The sectors where {{ site.company_name }} delivers dependable products, service, and expertise.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {% if services %}
+      <div class="grid grid-3">
+        {% for service in services %}
+          <a href="{{ service.get_absolute_url }}" class="card reveal">
+            <div class="card-media">
+              {% if service.image %}
+                <img src="{{ service.image.url }}" alt="{{ service.name }}" loading="lazy">
+              {% else %}
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=800&auto=format&fit=crop" alt="{{ service.name }}" loading="lazy">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <div class="card-icon"><i class="bi {{ service.icon|default:'bi-briefcase' }}"></i></div>
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.short_description }}</p>
+              <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h3>Services coming soon</h3>
+        <p>Our business areas will be listed here shortly.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section--ink">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>{{ site.cta_headline }}</h2>
+        <p>{{ site.cta_subtext }}</p>
+      </div>
+      <a href="{% url 'core:contact' %}" class="btn btn-gold">Contact Us <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-media">
+    {% if company.hero_image %}
+      <img src="{{ company.hero_image.url }}" alt="{{ company.company_name }}" fetchpriority="high">
+    {% else %}
+      <img src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=1800&auto=format&fit=crop" alt="{{ company.company_name }}" fetchpriority="high">
+    {% endif %}
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">{{ company.company_name }}</div>
+    <h1>{{ company.hero_headline|default:"Building Reliable Business Connections." }}</h1>
+    <p class="hero-sub">{{ company.hero_subtext }}</p>
+    <div class="hero-actions">
+      <a href="{% url 'core:service_list' %}" class="btn btn-gold">Explore Our Business <i class="bi bi-arrow-right"></i></a>
+      <a href="{% url 'core:contact' %}" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.35);">Contact Us <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- Company Introduction -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split reveal">
+      <div class="media">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop" alt="Inside {{ company.company_name }}">
+        <div class="media-badge">
+          <strong>{% if statistics %}{{ statistics.0.number }}{% else %}10+{% endif %}</strong>
+          <span>{% if statistics %}{{ statistics.0.label }}{% else %}Years of Experience{% endif %}</span>
+        </div>
+      </div>
+      <div class="copy">
+        <div class="eyebrow">Who We Are</div>
+        <h2>A dependable partner for businesses that value consistency.</h2>
+        <p>{{ company.about_description|default:"K&K Trading Company brings together sourcing, logistics, and consultancy expertise to support partners who need dependable, on-time delivery and honest communication at every step." }}</p>
+        <div class="mt-lg">
+          <a href="{% url 'core:about' %}" class="btn-link">Read More About Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Business / Services -->
+{% if services %}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Business</div>
+      <h2>Built Around Reliability</h2>
+      <p>The core sectors where {{ company.company_name }} delivers consistent, professional service to our partners.</p>
+    </div>
+    <div class="grid grid-3">
+      {% for service in services %}
+        <a href="{{ service.get_absolute_url }}" class="card card--plain reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="bi {{ service.icon|default:'bi-briefcase' }}"></i></div>
+            <h3>{{ service.name }}</h3>
+            <p>{{ service.short_description }}</p>
+            <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Why Choose Us -->
+{% if values %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2>Strength Built on Fundamentals</h2>
+    </div>
+    <div class="numbered-list reveal">
+      {% for value in values %}
+        <div class="numbered-item">
+          <span class="num">{{ forloop.counter|stringformat:"02d" }}</span>
+          <div>
+            <h3>{{ value.title }}</h3>
+            <p>{{ value.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Statistics -->
+{% if statistics %}
+<section class="section--ink">
+  <div class="container">
+    <div class="stat-row">
+      {% for stat in statistics %}
+        <div class="stat-item reveal">
+          <div class="stat-number" data-counter="{{ stat.number }}">0</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Featured Products -->
+{% if products %}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Featured Products</div>
+      <h2>A Selection From Our Catalogue</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for product in products %}
+        <a href="{{ product.get_absolute_url }}" class="card reveal">
+          <div class="card-media">
+            {% if product.main_image %}
+              <img src="{{ product.main_image.url }}" alt="{{ product.name }}" loading="lazy">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop" alt="{{ product.name }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="card-body">
+            {% if product.category %}<span class="card-tag">{{ product.category.name }}</span>{% endif %}
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.short_description }}</p>
+            <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Projects -->
+{% if projects %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Work</div>
+      <h2>Projects &amp; Business Activities</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for project in projects %}
+        <a href="{{ project.get_absolute_url }}" class="card reveal">
+          <div class="card-media">
+            {% if project.main_image %}
+              <img src="{{ project.main_image.url }}" alt="{{ project.title }}" loading="lazy">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=800&auto=format&fit=crop" alt="{{ project.title }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="card-body">
+            {% if project.category %}<span class="card-tag">{{ project.category.name }}</span>{% endif %}
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.location }}{% if project.completion_date %} &middot; {{ project.completion_date|date:"Y" }}{% endif %}</p>
+            <span class="card-link">View Project <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+{% if testimonials %}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Client Voices</div>
+      <h2>What Our Partners Say</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for t in testimonials %}
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">
+            {% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}
+          </div>
+          <p class="testimonial-quote">&ldquo;{{ t.testimonial }}&rdquo;</p>
+          <div class="testimonial-author">
+            {% if t.photo %}<img src="{{ t.photo.url }}" alt="{{ t.client_name }}">{% endif %}
+            <div>
+              <strong>{{ t.client_name }}</strong>
+              <span>{{ t.client_position }}{% if t.client_position and t.client_company %}, {% endif %}{{ t.client_company }}</span>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA -->
+<section class="section--ink">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>{{ company.cta_headline|default:"Let's Build Something Valuable Together." }}</h2>
+        <p>{{ company.cta_subtext }}</p>
+      </div>
+      <a href="{% url 'core:contact' %}" class="btn btn-gold">Contact Us <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

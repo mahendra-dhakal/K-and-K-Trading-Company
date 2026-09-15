@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Please Wait{% endblock %}
+{% block content %}
+<div class="error-page">
+  <div>
+    <div class="error-code"><i class="bi bi-hourglass-split"></i></div>
+    <h1>{{ message|default:"Please wait a moment before trying again." }}</h1>
+    <p style="color:var(--color-muted);margin:14px 0 32px;">This helps us keep the enquiry form free of spam.</p>
+    <a href="{% url 'core:contact' %}" class="btn btn-primary">Back to Contact <i class="bi bi-arrow-right"></i></a>
+  </div>
+</div>
+{% endblock %}

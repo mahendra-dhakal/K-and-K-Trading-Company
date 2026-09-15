@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ service.name }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="{% url 'core:home' %}">Home</a><span class="crumb-sep">/</span>
+      <a href="{% url 'core:service_list' %}">Services</a><span class="crumb-sep">/</span>
+      <span>{{ service.name }}</span>
+    </div>
+    <h1>{{ service.name }}</h1>
+    <p>{{ service.short_description }}</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {% if service.image %}
+      <div class="detail-hero-image reveal">
+        <img src="{{ service.image.url }}" alt="{{ service.name }}">
+      </div>
+    {% endif %}
+
+    <div class="intro-split reveal" style="align-items:flex-start;">
+      <div class="copy" style="grid-column: 1 / span 1;">
+        <div class="eyebrow">Overview</div>
+        <h2>What We Offer</h2>
+        <p>{{ service.full_description }}</p>
+      </div>
+
+      {% if service.features_list %}
+      <div>
+        <div class="eyebrow">Key Features</div>
+        <ul class="feature-list">
+          {% for feature in service.features_list %}
+            <li><i class="bi bi-check2"></i><span>{{ feature }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% if related_services %}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Related</div>
+      <h2>Other Business Areas</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for related in related_services %}
+        <a href="{{ related.get_absolute_url }}" class="card card--plain reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="bi {{ related.icon|default:'bi-briefcase' }}"></i></div>
+            <h3>{{ related.name }}</h3>
+            <p>{{ related.short_description }}</p>
+            <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section--ink">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>Interested in this service?</h2>
+        <p>Get in touch and our team will follow up with details tailored to your needs.</p>
+      </div>
+      <a href="{% url 'core:contact' %}" class="btn btn-gold">Contact Us <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

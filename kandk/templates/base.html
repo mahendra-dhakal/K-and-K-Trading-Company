@@ -1,0 +1,137 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ site.company_name }}{% endblock %} | {{ site.tagline|default:"Reliable Trade. Trusted Partnerships." }}</title>
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default:site.short_description }}{% endblock %}">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ site.company_name }}{% endblock %}">
+  <meta property="og:description" content="{{ meta_description|default:site.short_description }}">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  {% if site.logo %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}">{% endif %}
+
+  {% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-row">
+      <a href="{% url 'core:home' %}" class="brand">
+        {% if site.logo %}<img src="{{ site.logo.url }}" alt="{{ site.company_name }}">{% endif %}
+        <span>
+          {{ site.company_name }}
+          {% if site.tagline %}<small>{{ site.tagline }}</small>{% endif %}
+        </span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="{% url 'core:home' %}" class="{% if request.resolver_match.url_name == 'home' %}is-active{% endif %}">Home</a></li>
+          <li><a href="{% url 'core:about' %}" class="{% if request.resolver_match.url_name == 'about' %}is-active{% endif %}">About</a></li>
+          <li><a href="{% url 'core:service_list' %}" class="{% if 'service' in request.resolver_match.url_name %}is-active{% endif %}">Services</a></li>
+          <li><a href="{% url 'core:product_list' %}" class="{% if 'product' in request.resolver_match.url_name %}is-active{% endif %}">Products</a></li>
+          <li><a href="{% url 'core:project_list' %}" class="{% if 'project' in request.resolver_match.url_name %}is-active{% endif %}">Projects</a></li>
+          <li><a href="{% url 'core:contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}is-active{% endif %}">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="{% url 'core:contact' %}" class="btn btn-primary">Get In Touch</a>
+        <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <i class="bi bi-list" style="font-size:28px;"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <a href="{% url 'core:home' %}">Home</a>
+    <a href="{% url 'core:about' %}">About</a>
+    <a href="{% url 'core:service_list' %}">Services</a>
+    <a href="{% url 'core:product_list' %}">Products</a>
+    <a href="{% url 'core:project_list' %}">Projects</a>
+    <a href="{% url 'core:contact' %}">Contact</a>
+  </div>
+
+  <main>
+    {% if messages %}
+      <div class="container" style="padding-top:24px;">
+        {% for message in messages %}
+          <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-error{% endif %}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">{{ site.company_name }}</div>
+          <p class="footer-desc">{{ site.short_description|default:"Reliable products, professional service, and long-term business relationships." }}</p>
+          {% if site.facebook_url or site.instagram_url or site.linkedin_url or site.twitter_url %}
+          <div class="footer-social">
+            {% if site.facebook_url %}<a href="{{ site.facebook_url }}" aria-label="Facebook"><i class="bi bi-facebook"></i></a>{% endif %}
+            {% if site.instagram_url %}<a href="{{ site.instagram_url }}" aria-label="Instagram"><i class="bi bi-instagram"></i></a>{% endif %}
+            {% if site.linkedin_url %}<a href="{{ site.linkedin_url }}" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>{% endif %}
+            {% if site.twitter_url %}<a href="{{ site.twitter_url }}" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>{% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="{% url 'core:about' %}">About Us</a></li>
+            <li><a href="{% url 'core:service_list' %}">Services</a></li>
+            <li><a href="{% url 'core:product_list' %}">Products</a></li>
+            <li><a href="{% url 'core:project_list' %}">Projects</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Business</h4>
+          <ul>
+            <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+            <li><a href="{% url 'core:contact' %}">Submit an Enquiry</a></li>
+            <li><a href="{% url 'core:home' %}">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul class="footer-contact">
+            {% if site.address %}<li><i class="bi bi-geo-alt"></i><span>{{ site.address }}</span></li>{% endif %}
+            {% if site.phone %}<li><i class="bi bi-telephone"></i><a href="tel:{{ site.phone }}">{{ site.phone }}</a></li>{% endif %}
+            {% if site.email %}<li><i class="bi bi-envelope"></i><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>{% endif %}
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; {% now "Y" %} {{ site.company_name }}. All rights reserved.</span>
+        <div style="display:flex;gap:20px;">
+          <a href="{% url 'core:home' %}">Privacy Policy</a>
+          <a href="{% url 'core:home' %}">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

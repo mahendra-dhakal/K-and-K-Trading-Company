@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'core:home' %}">Home</a><span class="crumb-sep">/</span><span>About</span></div>
+    <h1>About {{ company.company_name }}</h1>
+    <p>{{ company.short_description }}</p>
+  </div>
+</div>
+
+<!-- Overview -->
+<section class="section">
+  <div class="container">
+    <div class="intro-split reveal">
+      <div class="media">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="{{ company.company_name }} team">
+      </div>
+      <div class="copy">
+        <div class="eyebrow">Company Overview</div>
+        <h2>Committed to reliable, long-term partnerships.</h2>
+        <p>{{ company.about_description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Mission & Vision -->
+<section class="section section--alt">
+  <div class="container">
+    <div class="grid grid-2">
+      <div class="card card--plain reveal">
+        <div class="card-body">
+          <div class="card-icon"><i class="bi bi-bullseye"></i></div>
+          <h3>Our Mission</h3>
+          <p>{{ company.mission }}</p>
+        </div>
+      </div>
+      <div class="card card--plain reveal">
+        <div class="card-body">
+          <div class="card-icon"><i class="bi bi-binoculars"></i></div>
+          <h3>Our Vision</h3>
+          <p>{{ company.vision }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story / Timeline -->
+{% if timeline %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Our Story</div>
+      <h2>Milestones Along the Way</h2>
+    </div>
+    <div class="timeline reveal">
+      {% for event in timeline %}
+        <div class="timeline-item">
+          <div class="timeline-year">{{ event.year }}</div>
+          <h4>{{ event.title }}</h4>
+          <p>{{ event.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Core Values -->
+{% if values %}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Core Values</div>
+      <h2>What Guides Our Work</h2>
+    </div>
+    <div class="grid grid-4">
+      {% for value in values %}
+        <div class="card card--plain reveal">
+          <div class="card-body">
+            <div class="card-icon"><i class="bi {{ value.icon|default:'bi-check2-circle' }}"></i></div>
+            <h3>{{ value.title }}</h3>
+            <p>{{ value.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Statistics -->
+{% if statistics %}
+<section class="section--ink">
+  <div class="container">
+    <div class="stat-row">
+      {% for stat in statistics %}
+        <div class="stat-item reveal">
+          <div class="stat-number" data-counter="{{ stat.number }}">0</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Team -->
+{% if team %}
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Leadership</div>
+      <h2>The Team Behind {{ company.company_name }}</h2>
+    </div>
+    <div class="grid grid-4">
+      {% for member in team %}
+        <div class="card team-card reveal">
+          <div class="card-media">
+            {% if member.photo %}
+              <img src="{{ member.photo.url }}" alt="{{ member.name }}" loading="lazy">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop" alt="{{ member.name }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <h3>{{ member.name }}</h3>
+            <span class="position">{{ member.position }}</span>
+            <p>{{ member.bio }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section--ink">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>{{ company.cta_headline }}</h2>
+        <p>{{ company.cta_subtext }}</p>
+      </div>
+      <a href="{% url 'core:contact' %}" class="btn btn-gold">Contact Us <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'core:home' %}">Home</a><span class="crumb-sep">/</span><span>Projects</span></div>
+    <h1>Projects &amp; Business Activities</h1>
+    <p>A selection of the work and business activities carried out by {{ site.company_name }}.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    {% if categories %}
+      <div class="filter-row">
+        <a href="{% url 'core:project_list' %}" class="filter-pill {% if not active_category %}is-active{% endif %}">All Projects</a>
+        {% for cat in categories %}
+          <a href="?category={{ cat.slug }}" class="filter-pill {% if active_category.slug == cat.slug %}is-active{% endif %}">{{ cat.name }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if projects %}
+      <div class="grid grid-3">
+        {% for project in projects %}
+          <a href="{{ project.get_absolute_url }}" class="card reveal">
+            <div class="card-media">
+              {% if project.main_image %}
+                <img src="{{ project.main_image.url }}" alt="{{ project.title }}" loading="lazy">
+              {% else %}
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=800&auto=format&fit=crop" alt="{{ project.title }}" loading="lazy">
+              {% endif %}
+            </div>
+            <div class="card-body">
+              {% if project.category %}<span class="card-tag">{{ project.category.name }}</span>{% endif %}
+              <h3>{{ project.title }}</h3>
+              <p>{{ project.location }}{% if project.completion_date %} &middot; {{ project.completion_date|date:"Y" }}{% endif %}</p>
+              <span class="card-link">View Project <i class="bi bi-arrow-right"></i></span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <h3>No projects found</h3>
+        <p>Try a different category, or check back soon.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

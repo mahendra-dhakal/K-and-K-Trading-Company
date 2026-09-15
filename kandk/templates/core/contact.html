@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="{% url 'core:home' %}">Home</a><span class="crumb-sep">/</span><span>Contact</span></div>
+    <h1>Contact Us</h1>
+    <p>Have a question or business enquiry? Send us a message and our team will get back to you shortly.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="intro-split reveal" style="align-items:flex-start;">
+      <div>
+        <form id="enquiry-form" method="post" action="{% url 'core:submit_enquiry' %}" novalidate>
+          {% csrf_token %}
+
+          <div class="honeypot-field" aria-hidden="true">
+            <label for="id_website">Leave this field empty</label>
+            {{ form.website }}
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <label class="field-label" for="{{ form.full_name.id_for_label }}">Full Name *</label>
+              {{ form.full_name }}
+              {% if form.full_name.errors %}<div class="field-error">{{ form.full_name.errors.0 }}</div>{% endif %}
+            </div>
+            <div>
+              <label class="field-label" for="{{ form.email.id_for_label }}">Email *</label>
+              {{ form.email }}
+              {% if form.email.errors %}<div class="field-error">{{ form.email.errors.0 }}</div>{% endif %}
+            </div>
+            <div>
+              <label class="field-label" for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+              {{ form.phone_number }}
+            </div>
+            <div>
+              <label class="field-label" for="{{ form.company.id_for_label }}">Company</label>
+              {{ form.company }}
+            </div>
+            <div class="full">
+              <label class="field-label" for="{{ form.subject.id_for_label }}">Subject *</label>
+              {{ form.subject }}
+              {% if form.subject.errors %}<div class="field-error">{{ form.subject.errors.0 }}</div>{% endif %}
+            </div>
+            <div class="full">
+              <label class="field-label" for="{{ form.message.id_for_label }}">Message *</label>
+              {{ form.message }}
+              {% if form.message.errors %}<div class="field-error">{{ form.message.errors.0 }}</div>{% endif %}
+            </div>
+          </div>
+
+          <div class="mt-lg">
+            <button type="submit" class="btn btn-primary">Submit Enquiry <i class="bi bi-arrow-right"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <div class="contact-info-card">
+          <h3>Company Information</h3>
+          <ul class="contact-info-list">
+            {% if company.address %}
+              <li><i class="bi bi-geo-alt"></i><div><strong>Address</strong><span>{{ company.address }}</span></div></li>
+            {% endif %}
+            {% if company.phone %}
+              <li><i class="bi bi-telephone"></i><div><strong>Phone</strong><a href="tel:{{ company.phone }}">{{ company.phone }}</a></div></li>
+            {% endif %}
+            {% if company.email %}
+              <li><i class="bi bi-envelope"></i><div><strong>Email</strong><a href="mailto:{{ company.email }}">{{ company.email }}</a></div></li>
+            {% endif %}
+            {% if company.business_hours %}
+              <li><i class="bi bi-clock"></i><div><strong>Business Hours</strong><span>{{ company.business_hours }}</span></div></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        {% if company.google_maps_embed_url %}
+          <iframe class="map-frame" src="{{ company.google_maps_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Location map"></iframe>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if faqs %}
+<section class="section section--alt">
+  <div class="container-narrow">
+    <div class="section-head reveal">
+      <div class="eyebrow">FAQ</div>
+      <h2>Common Questions</h2>
+    </div>
+    <div class="reveal">
+      {% for faq in faqs %}
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>{{ faq.question }}</span>
+            <i class="bi bi-plus faq-icon"></i>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">{{ faq.answer }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
