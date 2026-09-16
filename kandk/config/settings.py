@@ -70,7 +70,18 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # ------------------------------------------------------------------
 _database_url = env("DATABASE_URL", default="") or f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
-DATABASES = {"default": env.db_url_config(_database_url)}
+
+import os
+DATABASES = {
+    'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+    'NAME': os.getenv('DB_NAME'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT':os.getenv('DB_PORT'), # default PostgreSQL port
+    }
+}
 
 # ------------------------------------------------------------------
 # Password validation
