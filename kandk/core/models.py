@@ -46,7 +46,7 @@ class CompanyProfile(SingletonModel):
     address = models.CharField(max_length=255, blank=True)
     business_hours = models.CharField(max_length=255, blank=True, default="Sun - Fri: 9:00 AM - 6:00 PM")
 
-    google_maps_embed_url = models.URLField(blank=True, help_text="Google Maps embed URL for the contact page.")
+    google_maps_embed_url = models.URLField(blank=True, max_length=2000, help_text="Google Maps embed URL for the contact page.")
 
     facebook_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
