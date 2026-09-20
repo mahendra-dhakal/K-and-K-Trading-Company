@@ -23,27 +23,33 @@
 </section>
 
 <!-- Company Introduction -->
-<section class="section">
+{% for section in introduction_sections %}
+<section class="section{% if forloop.counter|divisibleby:2 %} section--alt{% endif %}">
   <div class="container">
-    <div class="intro-split reveal">
+    <div class="intro-split reveal{% if forloop.counter|divisibleby:2 %} intro-split--reverse{% endif %}">
       <div class="media">
-        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop" alt="Inside {{ company.company_name }}">
-        <div class="media-badge">
-          <strong>{% if statistics %}{{ statistics.0.number }}{% else %}10+{% endif %}</strong>
-          <span>{% if statistics %}{{ statistics.0.label }}{% else %}Years of Experience{% endif %}</span>
-        </div>
+        {% if section.image %}
+          <img src="{{ section.image.url }}" alt="{{ section.title }}" loading="lazy">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1200&auto=format&fit=crop" alt="{{ section.title }}" loading="lazy">
+        {% endif %}
       </div>
       <div class="copy">
-        <div class="eyebrow">Who We Are</div>
-        <h2>A dependable partner for businesses that value consistency.</h2>
-        <p>{{ company.about_description|default:"K&K Trading Company brings together sourcing, logistics, and consultancy expertise to support partners who need dependable, on-time delivery and honest communication at every step." }}</p>
-        <div class="mt-lg">
-          <a href="{% url 'core:about' %}" class="btn-link">Read More About Us</a>
-        </div>
+        <h2>{{ section.title }}</h2>
+        <p>{{ section.description }}</p>
       </div>
     </div>
   </div>
 </section>
+{% endfor %}
+
+{% if introduction_sections %}
+<section class="section">
+  <div class="container" style="text-align:center;">
+    <a href="{% url 'core:about' %}" class="btn-link">Read More About Us</a>
+  </div>
+</section>
+{% endif %}
 
 <!-- Business / Services -->
 {% if services %}

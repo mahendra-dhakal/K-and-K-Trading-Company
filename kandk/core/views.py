@@ -10,6 +10,7 @@ from .models import (
     CompanyProfile,
     CoreValue,
     FAQ,
+    HomeIntroductionSection,
     Product,
     ProductCategory,
     Project,
@@ -31,6 +32,7 @@ def home(request):
         "projects": Project.objects.filter(is_published=True, is_featured=True).select_related("category")[:6],
         "values": CoreValue.objects.filter(is_active=True)[:4],
         "statistics": Statistic.objects.filter(is_active=True),
+        "introduction_sections": HomeIntroductionSection.objects.filter(is_active=True),
         "testimonials": Testimonial.objects.filter(is_published=True)[:6],
         "meta_description": company.short_description
         or "K&K Trading Company — reliable products, professional service, long-term partnerships.",

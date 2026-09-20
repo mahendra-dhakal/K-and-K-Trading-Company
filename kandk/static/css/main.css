@@ -482,6 +482,16 @@ section { position: relative; }
   font-size: 17px;
 }
 
+@media (min-width: 861px) {
+  .intro-split--reverse .media {
+    order: 2;
+  }
+
+  .intro-split--reverse .copy {
+    order: 1;
+  }
+}
+
 @media (max-width: 860px) {
   .intro-split { grid-template-columns: 1fr; }
 }

@@ -25,7 +25,8 @@
     {% if projects %}
       <div class="grid grid-3">
         {% for project in projects %}
-          <a href="{{ project.get_absolute_url }}" class="card reveal">
+          <!-- <a href="{{ project.get_absolute_url }}" class="card reveal">    #use this when the project desciption is needed in next page  -->
+          <div class="project-card">
             <div class="card-media">
               {% if project.main_image %}
                 <img src="{{ project.main_image.url }}" alt="{{ project.title }}" loading="lazy">
@@ -37,9 +38,10 @@
               {% if project.category %}<span class="card-tag">{{ project.category.name }}</span>{% endif %}
               <h3>{{ project.title }}</h3>
               <p>{{ project.location }}{% if project.completion_date %} &middot; {{ project.completion_date|date:"Y" }}{% endif %}</p>
-              <span class="card-link">View Project <i class="bi bi-arrow-right"></i></span>
+              <!-- <span class="card-link">View Project <i class="bi bi-arrow-right"></i></span> -->
             </div>
-          </a>
+          </div>
+          <!-- </a> -->
         {% endfor %}
       </div>
     {% else %}

@@ -41,7 +41,7 @@
           <li><a href="{% url 'core:home' %}" class="{% if request.resolver_match.url_name == 'home' %}is-active{% endif %}">Home</a></li>
           <li><a href="{% url 'core:about' %}" class="{% if request.resolver_match.url_name == 'about' %}is-active{% endif %}">About</a></li>
           <li><a href="{% url 'core:service_list' %}" class="{% if 'service' in request.resolver_match.url_name %}is-active{% endif %}">Services</a></li>
-          <li><a href="{% url 'core:product_list' %}" class="{% if 'product' in request.resolver_match.url_name %}is-active{% endif %}">Products</a></li>
+          <!-- <li><a href="{% url 'core:product_list' %}" class="{% if 'product' in request.resolver_match.url_name %}is-active{% endif %}">Products</a></li> -->
           <li><a href="{% url 'core:project_list' %}" class="{% if 'project' in request.resolver_match.url_name %}is-active{% endif %}">Projects</a></li>
           <li><a href="{% url 'core:contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}is-active{% endif %}">Contact</a></li>
         </ul>
@@ -60,7 +60,7 @@
     <a href="{% url 'core:home' %}">Home</a>
     <a href="{% url 'core:about' %}">About</a>
     <a href="{% url 'core:service_list' %}">Services</a>
-    <a href="{% url 'core:product_list' %}">Products</a>
+    <!-- <a href="{% url 'core:product_list' %}">Products</a> -->
     <a href="{% url 'core:project_list' %}">Projects</a>
     <a href="{% url 'core:contact' %}">Contact</a>
   </div>
@@ -97,7 +97,7 @@
           <ul>
             <li><a href="{% url 'core:about' %}">About Us</a></li>
             <li><a href="{% url 'core:service_list' %}">Services</a></li>
-            <li><a href="{% url 'core:product_list' %}">Products</a></li>
+            <!-- <li><a href="{% url 'core:product_list' %}">Products</a></li> -->
             <li><a href="{% url 'core:project_list' %}">Projects</a></li>
           </ul>
         </div>

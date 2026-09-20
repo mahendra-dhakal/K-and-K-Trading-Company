@@ -6,6 +6,7 @@ from .models import (
     CoreValue,
     Enquiry,
     FAQ,
+    HomeIntroductionSection,
     Product,
     ProductCategory,
     ProductImage,
@@ -35,7 +36,10 @@ def image_preview(obj, field_name="image", height=60):
 class CompanyProfileAdmin(admin.ModelAdmin):
     fieldsets = (
         ("Identity", {"fields": ("company_name", "tagline", "logo", "favicon")}),
-        ("Descriptions", {"fields": ("short_description", "about_description", "mission", "vision")}),
+        (
+            "Descriptions",
+            {"fields": ("short_description", "about_description", "mission", "vision")},
+        ),
         ("Homepage Hero", {"fields": ("hero_headline", "hero_subtext", "hero_image")}),
         ("Call To Action", {"fields": ("cta_headline", "cta_subtext")}),
         (
@@ -50,6 +54,19 @@ class CompanyProfileAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(HomeIntroductionSection)
+class HomeIntroductionSectionAdmin(admin.ModelAdmin):
+    list_display = ("title", "thumbnail", "display_order", "is_active")
+    list_filter = ("is_active",)
+    list_editable = ("display_order", "is_active")
+    search_fields = ("title", "description")
+    ordering = ("display_order", "id")
+
+    @admin.display(description="Image")
+    def thumbnail(self, obj):
+        return image_preview(obj, "image")
 
 
 @admin.register(TimelineEvent)

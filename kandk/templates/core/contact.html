@@ -79,8 +79,8 @@
           </ul>
         </div>
 
-        {% if company.google_maps_embed_url %}
-          <iframe class="map-frame" src="{{ company.google_maps_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Location map"></iframe>
+        {% if company.map_embed_url %}
+          <iframe class="map-frame" src="{{ company.map_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Location map"></iframe>
         {% endif %}
       </div>
     </div>

@@ -1,6 +1,12 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from urllib.parse import quote_plus
+
+
+DEFAULT_MAP_EMBED_URL = (
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516.0565707421347!2d83.994000474094!3d28.20559380334283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399595ef27893d61%3A0x5e6eb559b90a7e8a!2sSmart%20Tyre%20Zone%20MRF%20Dealer!5e0!3m2!1sen!2snp!4v1789890048445!5m2!1sen!2snp"
+)
 
 
 class SingletonModel(models.Model):
@@ -36,7 +42,6 @@ class CompanyProfile(SingletonModel):
     about_description = models.TextField(
         blank=True, help_text="Longer company overview used on the About page."
     )
-
     mission = models.TextField(blank=True)
     vision = models.TextField(blank=True)
 
@@ -73,6 +78,40 @@ class CompanyProfile(SingletonModel):
 
     def __str__(self):
         return self.company_name
+
+    @property
+    def map_embed_url(self):
+        """Return a stable map embed URL without relying on Google's opaque `pb` links."""
+        configured_url = self.google_maps_embed_url.strip()
+
+        # Google's generated `pb` parameter is an opaque, brittle payload. A
+        # malformed or copied partial value results in an "Invalid 'pb'"
+        # response, so use the address-based endpoint instead.
+        if configured_url and "pb=" not in configured_url:
+            return configured_url
+
+        if not self.address.strip():
+            return DEFAULT_MAP_EMBED_URL
+
+        return f"https://www.google.com/maps?q={quote_plus(self.address)}&output=embed"
+
+
+class HomeIntroductionSection(models.Model):
+    """An image-and-copy section shown on the homepage introduction area."""
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to="company/introduction/", blank=True, null=True)
+    display_order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+        verbose_name = "Homepage introduction section"
+        verbose_name_plural = "Homepage introduction sections"
+
+    def __str__(self):
+        return self.title
 
 
 class TimelineEvent(models.Model):
