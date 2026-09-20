@@ -56,9 +56,9 @@
 <section class="section section--alt">
   <div class="container">
     <div class="section-head reveal">
-      <div class="eyebrow">Our Business</div>
-      <h2>Built Around Reliability</h2>
-      <p>The core sectors where {{ company.company_name }} delivers consistent, professional service to our partners.</p>
+      <div class="eyebrow">What We Offer</div>
+      <h2>Our Services</h2>
+      <p>Explore the professional services {{ company.company_name }} provides to support your business.</p>
     </div>
     <div class="grid grid-3">
       {% for service in services %}
@@ -71,6 +71,11 @@
           </div>
         </a>
       {% endfor %}
+    </div>
+    <div class="mt-lg" style="text-align:center;">
+      <a href="{% url 'core:service_list' %}" class="btn btn-primary">
+        View More Services <i class="bi bi-arrow-right"></i>
+      </a>
     </div>
   </div>
 </section>

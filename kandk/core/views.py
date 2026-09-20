@@ -27,7 +27,7 @@ def home(request):
     company = CompanyProfile.load()
     context = {
         "company": company,
-        "services": Service.objects.filter(is_active=True, is_featured=True)[:6],
+        "services": Service.objects.filter(is_active=True)[:6],
         "products": Product.objects.filter(is_active=True, is_featured=True).select_related("category")[:6],
         "projects": Project.objects.filter(is_published=True, is_featured=True).select_related("category")[:6],
         "values": CoreValue.objects.filter(is_active=True)[:4],
