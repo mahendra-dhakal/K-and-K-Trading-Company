@@ -246,7 +246,7 @@ section { position: relative; }
   color: var(--color-ink);
 }
 
-.brand img { height: 38px; width: auto; }
+.brand img { height: 48px; width: auto; }
 
 .brand small {
   display: block;
