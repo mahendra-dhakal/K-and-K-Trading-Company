@@ -16,8 +16,10 @@
     {% if services %}
       <div class="grid grid-3">
         {% for service in services %}
-          {# To restore service detail pages later, change this div back to:
-             <a href="{{ service.get_absolute_url }}" class="card reveal"> #}
+          {% comment %}
+          To restore service detail pages later, change this div back to:
+          <a href="{{ service.get_absolute_url }}" class="card reveal">
+          {% endcomment %}
           <div class="card reveal">
             <div class="card-media">
               {% if service.image %}
@@ -27,13 +29,14 @@
               {% endif %}
             </div>
             <div class="card-body">
-              {# Service icon intentionally hidden for the list-only layout.
-              <div class="card-icon"><i class="bi {{ service.icon|default:'bi-briefcase' }}"></i></div> #}
+              {% comment %}
+              <div class="card-icon"><i class="bi {{ service.icon|default:'bi-briefcase' }}"></i></div>
+              {% endcomment %}
               <h3>{{ service.name }}</h3>
               <p>{{ service.short_description }}</p>
               {# <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span> #}
             </div>
-          {# Change this closing div back to </a> when restoring service detail links. #}
+          {% comment %} Change this closing div back to </a> when restoring service detail links. {% endcomment %}
           </div>
         {% endfor %}
       </div>
