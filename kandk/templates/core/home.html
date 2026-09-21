@@ -62,14 +62,28 @@
     </div>
     <div class="grid grid-3">
       {% for service in services %}
-        <a href="{{ service.get_absolute_url }}" class="card card--plain reveal">
+        {% comment %}
+        To restore service detail pages later, change this div back to:
+        <a href="{{ service.get_absolute_url }}" class="card reveal">
+        {% endcomment %}
+        <div class="card reveal">
+          <div class="card-media">
+            {% if service.image %}
+              <img src="{{ service.image.url }}" alt="{{ service.name }}" loading="lazy">
+            {% else %}
+              <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=800&auto=format&fit=crop" alt="{{ service.name }}" loading="lazy">
+            {% endif %}
+          </div>
           <div class="card-body">
+            {% comment %}
             <div class="card-icon"><i class="bi {{ service.icon|default:'bi-briefcase' }}"></i></div>
+            {% endcomment %}
             <h3>{{ service.name }}</h3>
             <p>{{ service.short_description }}</p>
-            <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span>
+            {# <span class="card-link">View Details <i class="bi bi-arrow-right"></i></span> #}
           </div>
-        </a>
+        {% comment %} Change this closing div back to </a> when restoring service detail links. {% endcomment %}
+        </div>
       {% endfor %}
     </div>
     <div class="mt-lg" style="text-align:center;">
